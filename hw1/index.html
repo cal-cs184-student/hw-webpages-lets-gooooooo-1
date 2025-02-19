@@ -28,19 +28,20 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 1 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;"><strong>Names:</strong> Eric Nguyen, Shaurya Jain</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		<h4 style="margin: 0">Link to webpage: </h4>
+		<a href="https://cal-cs184-student.github.io/hw-webpages-lets-gooooooo-1/hw1/index.html">https://cal-cs184-student.github.io/hw-webpages-lets-gooooooo-1/hw1/index.html</a>
 		
 		<br>
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		<h4 style="margin-bottom: 0">Link to GitHub repository:</h4>
+		<a href="https://github.com/cal-cs184-student/hw-webpages-lets-gooooooo-1">https://github.com/cal-cs184-student/hw-webpages-lets-gooooooo-1</a>
 
 		<figure>
-			<img src="lion.jpg" alt="Lion" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
+			<img src="https://cs184.eecs.berkeley.edu/public/bunny.png" alt="Bunny" style="width:50%"/>
 		</figure>
 
 		<!--
@@ -51,39 +52,77 @@
 		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 
 		<h2>Task 1: Drawing Single-Color Triangles</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>Simply put, for each triangle, we iterated through a grid of pixels containing the triangle and checked whether the center of the pixel (x + 0.5, y + 0.5) was within the confines of the triangle. If it was, we filled the pixel with the designated color of the triangle, and if it was not, we left it with the default color. This effectively <q>colored<q> the triangle pixel by pixel.
+			<br><br>
+			To make this check whether the pixel’s center was <q>inside the triangle,</q> we utilized a geometric property of a cross-product between two vectors: the direction of a cross-product follows the right-hand rule. This means that for triangle ABC, the cross-products between AB and AC, BC and BA, and CA and CB will all possess the same direction (+ or - for 2D space) determined by the orientation of vertices (clockwise or counter-clockwise). Given a point in the triangle P, the cross-product between AB and AP, BC and BP, and CA and CP should all share the same direction as the cross-product from any of the original triangle side vectors (AB, BC, or CA) and their adjacent triangle side vectors that share the same source vertex. This essentially gives us the boolean we need to verify whether a point is inside the triangle, which is if the cross-products between the point and all of the original triangle side vectors all share the same direction as a cross-product between an original triangle side vector and its adjacent triangle side vector. We also count points that made any cross-products between it and an original triangle side vector equal zero because that just means the point lies on one of the edges of the triangle. 
+			<br><br>
+			This calculation is done for all pixel center points in a grid that is limited to contain an x range and y range of pixels bounded by the minimum and maximum x and y positions of all the triangle vertices.
+		</p>
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		<p>Our algorithm is no worse than one that checks each sample within the bounding box of the triangle because our algorithm is exactly that. Our algorithm iterates through a grid of pixels, checking each sample, and that grid of pixels is the triangle's bounding box. The grid of pixels' x range and y range is determined by the minimum and maximum x and y values of the triangle vertices, which means the sizes of these ranges are the least they can be while still being able to create a rectangle grid that bounds the triangle within. </p>
+
+		
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="triangles.png" width="400px"/>
+				  <figcaption>Triangles (Center Inside Trangle Check)</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 		
 		<h2>Task 2: Antialiasing by Supersampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<p>After the selection of the sampling rate (samples per frame pixel), we resized the sample buffer to contain all the samples needed for the entirety of the frame buffer (number of frame pixels * sampling rate), essentially leaving a constant number of sample values for every frame pixel.
+			<br><br>
+			To enable the supersampling, we changed what initially took one sample at the center of the pixel to taking multiple samples based on the sampling rate per pixel in the rasterize triangle function. This is done by splitting the frame pixel into a square grid containing a number of squares equal to the number of samples needed and collecting a sample at the center of those smaller partitions of the frame pixel. Collecting samples, in this case, refers to doing the inside-the-triangle check at the provided center position of a frame pixel partition and filling the sample buffer at the location that refers to the provided center position with the triangle's color if the check comes out true or leaving it as the default color if the check comes out as false. After sampling is done for every frame pixel through the rasterize triangle function, the samples get resolved to the frame pixel buffer by having the values of the samples that refer to each specific frame pixel get averaged to become the one value that used frame buffer for that specific frame pixel.
+			<br><br>
+			Supersampling is useful because it allows us to anti-alias the triangles and shapes in general. Instead of seeing jaggies at the edges, the pixels at the edges instead are now able to take on colors that approximately average out the colors that actually occupy the pixel space. We modified the sampling process to be dynamic to the sampling rate we choose, and we modified the resolving process (from sampling buffer to frame buffer) to always take the average of the samples.
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="s1.png" width="400px"/>
+				  <figcaption>Triangles (Supersample rate 1 per pixel)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="s4.png" width="400px"/>
+				  <figcaption>Triangles (Supersample rate 4 per pixel)</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="s9.png" width="400px"/>
+				  <figcaption>Triangles (Supersample rate 9 per pixel)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="s16.png" width="400px"/>
+				  <figcaption>Triangles (Supersample rate 16 per pixel)</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p>These results are observed because going from low sampling rate to high sampling increases the accuracy of the approximation of the average color within a pixel as there are more locations within pixel to take samples from. Through having more locations to sample, we can further narrow the approximation of how much of the pixel is within the triangle, allowing us to blend the colors more appropiately than simply having a solid color (white) for a pixel that still actually possess much of the colored triangle within it but not exactly at a specific location like the center of the pixel. This is why you can see pixels that were just white in picture with sampling rate 1 becoming a shade of red in pictures with higher sampling rate.</p>
 
 		<h2>Task 3: Transforms</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="my_robot.png" width="400px"/>
+				  <figcaption>Mr.Cubeman's Impressive Stunt</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p>Cubeman is diving into a pool while doing the splits in midair.</p>
 
 		<h2>Task 4: Barycentric coordinates</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
