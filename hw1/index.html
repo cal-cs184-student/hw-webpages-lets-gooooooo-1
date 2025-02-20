@@ -49,7 +49,12 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this homework, we implemented rasterization methods. In the first part, we used cross-product to find out whether a point was inside a triangle or not and color the pixel it represents accordingly.
+		We implemented various methods of antialiasing, including supersampling (where we take multiple samples for each pixel and average them out to get a corresponding color), 
+		pixel sampling (where we either sampled using the nearest pixel or used a linear combination of nearby pixels), and
+		level sampling (where we used mipmaps, essentially increasingly lower resolution versions of the original image).
+		We also implemented a transformation system to transform points (either rotate, scale, or translate).
+		We implemented barycentric coordinates allowing us to get a weighted average for values like color and texture coordinates.
 
 		<h2>Task 1: Drawing Single-Color Triangles</h2>
 		<p>Simply put, for each triangle, we iterated through a grid of pixels containing the triangle and checked whether the center of the pixel (x + 0.5, y + 0.5) was within the confines of the triangle. If it was, we filled the pixel with the designated color of the triangle, and if it was not, we left it with the default color. This effectively <q>colored<q> the triangle pixel by pixel.
@@ -197,11 +202,46 @@
 			</table>
 		</div>
 		
-		<p> This viewing area has columns around it which are much better rendered in the bilinear pixel sampling rather than the nearest pixel sampling as seen by the smoother edges in the bilinear pixel sampling image (the 16 sample supersampling is much smoother than the 1 sample supersampling as well). There will be large differences in places where we can see a lot of edge lines in a small area. </p>
+		<p> This viewing area has columns around it which are much better rendered in the bilinear pixel sampling rather than the nearest pixel sampling as seen by the smoother edges in the bilinear pixel sampling image (the 16 sample supersampling is much smoother than the 1 sample supersampling as well). There will be large differences in places where we can see a lot of edge lines in a small area.
+			Similar to how supersampling performs better than normal sampling in antialiasing to get rid of jaggy edges, so does bilinear filtering help with antialising.
+		</p>
 		
 		<h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
 		
-		<p> Lorem </p>
+		<p> Level sampling utilizes mipmaps which are essentially stored lower and lower resolution versions of the image. We sample from the appropriate level using the formula given in lecture 5. This level is supposed to match up with the sampling rate on the screen displayed to, so it relates the derivatives of the texture coordinates u,v with the screen coordinates x,y. Antialiasing can be done through taking out high frequency data, so it makes sense to match a reasonable lower resolution version of the texture with our sample to avoid aliasing artifacts. </p>
 		
+		<p> In terms of benefits and drawbacks of these different sampling methods, supersampling with higher samples per pixel is costly but results in higher quality than less samples per pixel. 
+ 		</p>
+
+		<p> Pixel sampling with the nearest pixel results in images being faster but not as effective in antialiasing when compared with bilinear pixel sampling. </p>
+
+		<p> Level sampling, not just using Level 0 mipmaps (original resolution), results in increased cost and lower speed than using Level 0 mipmaps but not as much as supersampling because we do not need to use higher resolution for every pixel. It does result in a better image quality though because it uses higher resolution where it tends to be needed more. </p>
+		
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="level 0, pnearest.png" width="400px"/>
+				  <figcaption>Elden Ring Shadowtree (Nearest Pixel Sampling, Level 0)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="level 0, plinear.png" width="400px"/>
+				  <figcaption>Elden Ring Shadowtree (Bilinear Pixel Sampling, Level 0)</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="lnearest, pnearest.png" width="400px"/>
+				  <figcaption>Elden Ring Shadowtree (Nearest Pixel Sampling, Nearest Level)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="lnearest, plinear.png" width="400px"/>
+				  <figcaption>Elden Ring Shadowtree (Bilinear Pixel Sampling, Nearest Level)</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+	
+		<p>This image, from Elden Ring Shadow of the Erdtree’s promotional artwork, shows a big tree in the middle with a veil surrounding it. The veil was not rendered well with nearest pixel sampling in Level 0, but when we used bilinear pixel sampling and when used nearest level sampling (especially when we used both), the antialiasing seems to have kicked in and got rid of the strangle look of the veil strands. </p>
 	</body>
 </html>
