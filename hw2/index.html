@@ -95,11 +95,13 @@
 			</table>
 		</div>
 
+		<br>
+
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="other_bzc.png" width="400px"/>
+				  <img src="other_bzc.png" width="1000px"/>
 				  <figcaption>Another Cool Bezier Curve</figcaption>
 				</td>
 			  </tr>
@@ -107,7 +109,19 @@
 		</div>
 
 		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<p>The Casteljau algorithm extends to Bezier surfaces by being the tool used to evaluate every Bezier curve needed for the Bezier surface. Given a grid of points, n rows of n points, every row makes up its own Bezier curve through Castelijau's algorithm, parameterized by a shared u value. Castelijau's algorithm returns a point from the Bezier curve, so given n Bezier curves defined by the n rows and a shared u parameter, n points associated with that u parameter are found. From there, those n points are used to create a moving Bezier curve through Castelijau's algorithm once again with a v parameter. It's moving because the Bezier curve changes with the u parameter as the defining n points are found based on that u parameter. Now, with the help of Castelijau's algorithm, a point is determined by an u and v parameter, allowing us to simulate a surface. We implemented it as described. For each row, we recursively linearly interpolated each consecutive pair based on an u value until we achieved a singular point for that row. With a single point from each row, we further recursively linearly interpolated each consecutive pair based on a v value to achieve a singular point. That singular point is a point that falls on the Bezier surface given a u and v value.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="tp.png" width="1000px"/>
+				  <figcaption>Our Bezier Surface of a Teapot</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
