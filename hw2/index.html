@@ -53,29 +53,49 @@
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	
+		<p>Castelijau's algorithm allows us to define a smooth Bezier curve given a set of control points by linearly interpolating through each pair of consecutive points of a level <b>(1-t)p_i + (t)p_i+1</b>, starting with the initial set of control points, with a given t parameter to create the points of the next level. This evaluation of the points of the next level recursively happens, taking the evaluated next-level points of the previous set as the input until only one point is evaluated for the next level. This one point is a point that lies on the Bezier curve, and to get the rest of the points that lie on the curve, Castelijau's algorithm is called with different values of t, spanning 0 to 1. Our implementation follows this exact logic, with us iterating (from 0 to n-1) through the set of provided points, linearly interpolating the current point with the next point with the given t parameter, and storing the evaluated point in a new set. Our implementation is recursively called, with each evaluated set being passed back into the algorithm until the set consists of a singular point.</p>
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		<h4 style="text-align: center;">6-Point Bezier Curve</h4>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="bzc1.png" width="400px"/>
+				  <figcaption>0th Level</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="bzc2.png" width="400px"/>
+				  <figcaption>1st Level</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="bzc3.png" width="400px"/>
+					<figcaption>2nd Level</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="bzc4.png" width="400px"/>
+				  <figcaption>3rd Level</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="bzc5.png" width="400px"/>
+				  <figcaption>4th Level</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="bzc6.png" width="400px"/>
+					<figcaption>5th Level</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="other_bzc.png" width="400px"/>
+				  <figcaption>Another Cool Bezier Curve</figcaption>
 				</td>
 			  </tr>
 			</table>
