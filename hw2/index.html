@@ -126,10 +126,44 @@
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
 		<h3>Part 3: Area-weighted vertex normals</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		
+		<p>Given the current vertex, we first ensured that it was possible to obtain the three vertices that made up a triangle by checking first if the twin lay on the boundary. If it did, we moved on to the next available face in the iteration by repeating the process but on the half-edge that was next after the twin that lay on the boundary, which ensures that the twin of that half-edge was a valid interior face. If it did not lay on the boundary, the face the twin lay on was valid, and we collected the positions of vertices. Using these positions, we generated adjacent vectors of the triangle sides, which we used to get the cross product that pointed outward. This was the normal vector, but to get an area-weighted norm vector, we multiplied it by half because the magnitude of a cross-product is equivalent to the parallelogram form from the adjacent vectors. We repeated that process of calculating the area-weighted norm vector for every valid neighboring face of the vector, accumulating it along the way. Afterward, we normalized the sum of the face norm vectors to get the final area-weighted vector normal.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="flat_tp.png" width="1000px"/>
+				  <figcaption>Teapot: Flat Shading</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="phong_tp.png" width="1000px"/>
+				  <figcaption>Teapot: Phong Shading</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h3>Part 4: Edge flip</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<p>Before changing any of the pointers to implement the edge flip operation, we made a reference to every relevant object and used notation similar to that of the illustration. Between the input BC edge that needs to be flipped to AD, an ABC triangle and a CBD triangle exist. We noted down and made reference to all the vertices: A, B, C, and D; all the edges: AB, BC, CA, BD, and CD; all the faces: ABC and CBD; and all the half-edges: AB, CA, BC, CB, BD, and DC. We implemented the changes to objects in order of those that needed the least changes to those that needed the most in order to avoid confusion. We modified the faces to point to half-edges we know would not be modified in our scheme like AB and DC, as we sought to change the triangles from ABC to ABD and CBD to ADC. We then modified the edges to half-edges, which were noted similarly to them. We selected arbitrary half-edges that are not from the input edge to be pointed to by the vertices, and finally, we modified the half-edges to make the behavior half-edges BC and CB reflect that of new half-edges AD and DA where the next values ensured the formation of the ABD and ADC triangles.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="before_tp.png" width="1000px"/>
+				  <figcaption>Teapot: Before Flips</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="flip_tp.png" width="1000px"/>
+				  <figcaption>Teapot: After Flips</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p>When making these changes, the first thing that came to mind was ensuring that the next half-edges reflected the flipped edge. That was the first thing we did, but we made a mistake in that we forgot that there were many mesh objects of different types that needed to be modified as well. After noticing our error and seeing unwanted results, we recalled that half-edges pointed to faces and vertices as well, and those objects pointed to specific half-edges, too. That is when we decided to go for our top-down approach, modifying the objects that the half-edges pointed to before changing the half-edges themselves.</p>
 
 		<h3>Part 5: Edge split</h3>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
