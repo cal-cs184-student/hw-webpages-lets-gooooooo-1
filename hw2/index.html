@@ -28,19 +28,24 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 2 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
-
-		<br>
-
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-
-		<br>
 		
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		<div style="text-align: center;"><strong>Names:</strong> Eric Nguyen, Shaurya Jain</div>
+
+		<br>
+
+		<h4 style="margin: 0">Link to webpage: </h4>
+		<a href="https://cal-cs184-student.github.io/hw-webpages-lets-gooooooo-1/hw2/index.html">https://cal-cs184-student.github.io/hw-webpages-lets-gooooooo-1/hw2/index.html</a>
+		
+		<br>
+
+		<h4 style="margin-bottom: 0">Link to GitHub repository:</h4>
+		<a href="https://github.com/cal-cs184-student/hw-webpages-lets-gooooooo-1">https://github.com/cal-cs184-student/hw-webpages-lets-gooooooo-1</a>
+
+		
 
 		<figure>
 			<img src="teapot.png" alt="Teapot" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
+			<figcaption>Cool Teapot</figcaption>
 		</figure>
 
 		<!--
@@ -54,7 +59,7 @@
 
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
 	
-		<p>Castelijau's algorithm allows us to define a smooth Bezier curve given a set of control points by linearly interpolating through each pair of consecutive points of a level <b>(1-t)p_i + (t)p_i+1</b>, starting with the initial set of control points, with a given t parameter to create the points of the next level. This evaluation of the points of the next level recursively happens, taking the evaluated next-level points of the previous set as the input until only one point is evaluated for the next level. This one point is a point that lies on the Bezier curve, and to get the rest of the points that lie on the curve, Castelijau's algorithm is called with different values of t, spanning 0 to 1. Our implementation follows this exact logic, with us iterating (from 0 to n-1) through the set of provided points, linearly interpolating the current point with the next point with the given t parameter, and storing the evaluated point in a new set. Our implementation is recursively called, with each evaluated set being passed back into the algorithm until the set consists of a singular point.</p>
+		<p>Castelijau's algorithm allows us to define a smooth Bezier curve given a set of control points by linearly interpolating through each pair of consecutive points of a level <b>(1 - t)p_i + (t)p_i+1</b>, starting with the initial set of control points, with a given t parameter to create the points of the next level. This evaluation of the points of the next level recursively happens, taking the evaluated next-level points of the previous set as the input until only one point is evaluated for the next level. This one point is a point that lies on the Bezier curve, and to get the rest of the points that lie on the curve, Castelijau's algorithm is called with different values of t, spanning 0 to 1. Our implementation follows this exact logic, with us iterating (from 0 to n-1) through the set of provided points, linearly interpolating the current point with the next point with the given t parameter, and storing the evaluated point in a new set. Our implementation is recursively called, with each evaluated set being passed back into the algorithm until the set consists of a singular point.</p>
 
 		<h4 style="text-align: center;">6-Point Bezier Curve</h4>
 		<div style="display: flex; flex-direction: column; align-items: center;">
