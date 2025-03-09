@@ -53,7 +53,9 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this homework, we focused on 2 main things. The first was bezier curves and surfaces, using de Casteljau's algorithm
+		to interpolate points on a curve out of control points; then, extending that to surfaces by using the algorithm
+		once to create a "moving curve" and then again to interpolate the result out of the "moving curve".
 
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
@@ -245,7 +247,16 @@
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
 		
 		<p>
-			--
+			To implement loop subdivision, first, we calculated the new position for the old vertices.
+			If the vertex was of degree 3, we took the u value as 3/16, otherwise we set u as 3/(8 * degree of the vertex).
+			We calculated the new position by taking a weighted sum of the old position (with weight 1 - (degree of vertex * u)) and
+			the sum of the positions of the neighbors (with weight u). 
+			We also marked the vertices as not new for future reference.
+			Then, we calculated the new position for the new vertices as a weighted sum (3/8 * sum of vertices on ends of edge 
+			that would be split, 1/8 * sum of 2 other vertices that form the 2 triangles that the given edge is along)
+			Next, we performed edge split on all of the old edges and marked the new vertices we created as new.
+			Subsequently, we flipped edges that were marked as new (marked in split edge function - part 5).
+			Finally, we updated all vertices to their new positions and set them as not new.
 		</p>
 
 		<p>
@@ -253,7 +264,16 @@
 		</p>
 
 		<p>
-			--
+			As we repeatedly perform loop subdivision on the cube, we see it transition into a shape
+			that resembles an ellipsoid because it has 2 bulges that can be seen on the bottom left
+			and top right of the picture for the "after 4 iterations of loop subdivision" cube.
+			This happens because the diagonals edges that run across the faces of the cube do not have
+			counterparts along the same face so they break the symetry of the cube.
+			To counter this, we have split the diagonal edges so that every face now has 4 diagonal edges
+			(2 that go top left to bottom right, and 2 that go bottom left to top right). 
+			We only used splits and not flips, and this made the result significantly more symmetric.
+			Now the cube after 4 loop subdivisions looks similar to a sphere with 8 bulges representing
+			where the vertices of the cube would have been.
 		</p>
 
 		<div style="display: flex; flex-direction: column; align-items: center;">
