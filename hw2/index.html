@@ -53,9 +53,10 @@
 		-->
 
 		<h2>Overview</h2>
-		In this homework, we focused on 2 main things. The first was bezier curves and surfaces, using de Casteljau's algorithm
-		to interpolate points on a curve out of control points; then, extending that to surfaces by using the algorithm
-		once to create a "moving curve" and then again to interpolate the result out of the "moving curve".
+		In this homework, we focused on two main components. The first was bezier curves and surfaces; we used de Casteljau's algorithm
+		to interpolate points on a curve out of control points. The second was meshes and half-edges; we implemented methods such as edge flip,
+		edge split, and loop subdivision by working with the half-edge data structure and its associated pointers.
+
 
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
@@ -260,8 +261,70 @@
 		</p>
 
 		<p>
-			--
+			As shown in the pictures below, loop subdivision seems to add significant complexity
+			to the model by adding many more triangles and edges. With the cow shown, the complexity
+			of the model scales up very quickly.
 		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td style="text-align: center;">
+					  <img src="Part 6-10.png" width="400px"/>
+					  <figcaption>Original Cow</figcaption>
+					</td>
+					<td style="text-align: center;">
+					  <img src="Part 6-11.png" width="400px"/>
+					  <figcaption>Cow Post-Loop Subdivision</figcaption>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="text-align: center;">
+					  <img src="Part 6-12.png" width="400px"/>
+					  <figcaption>Cow Post-More Loop Subdivision</figcaption>
+					</td>
+				  </tr>
+			</table>
+		</div>
+
+		<p>
+			As shown in the pictures below, loop subdivision seems to smoothen out sharp edges. To
+			slow down this smoothification process, we have tried spliting many edges during preprocessing 
+			which seemed to work as intended because the later pictures are less smooth than before.
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td style="text-align: center;">
+					  <img src="6-1.png" width="400px"/>
+					  <figcaption>Original Cube</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="6-2.png" width="400px"/>
+						<figcaption>Cube after 2 Iterations of Loop Subdivision</figcaption>
+					  </td>
+					  <td style="text-align: center;">
+						<img src="6-3.png" width="400px"/>
+						<figcaption>Cube after 4 Iterations of Loop Subdivision</figcaption>
+					  </td>
+				  </tr>
+				  <tr>
+					<td style="text-align: center;">
+						<img src="6-7.png" width="400px"/>
+						<figcaption>Cube after Preprocessing</figcaption>
+					  </td>
+					<td style="text-align: center;">
+						<img src="6-8.png" width="400px"/>
+						<figcaption>Cube after Preprocessing and Some Loop Subdivision</figcaption>
+					  </td>
+					  <td style="text-align: center;">
+						<img src="6-9.png" width="400px"/>
+						<figcaption>Cube after Preprocessing and More Loop Subdivision</figcaption>
+					  </td>
+				  </tr>
+			</table>
+		</div>
 
 		<p>
 			As we repeatedly perform loop subdivision on the cube, we see it transition into a shape
