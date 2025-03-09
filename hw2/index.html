@@ -166,24 +166,87 @@
 		<p>When making these changes, the first thing that came to mind was ensuring that the next half-edges reflected the flipped edge. That was the first thing we did, but we made a mistake in that we forgot that there were many mesh objects of different types that needed to be modified as well. After noticing our error and seeing unwanted results, we recalled that half-edges pointed to faces and vertices as well, and those objects pointed to specific half-edges, too. That is when we decided to go for our top-down approach, modifying the objects that the half-edges pointed to before changing the half-edges themselves.</p>
 
 		<h3>Part 5: Edge split</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+			First, we obtained the pointers for each of the halfedges, edges, vertices, and faces that we need. 
+			Then, we created our midpoint vertex E and set its position as the average of the position of the two vertices
+			at the ends of the edge given in the argument. We also updated half_edge pointers for the vertices and some of the edges.
+			Next, we made 2 faces (AEC and ABE), a couple more half-edges such as AE and EA, and set various pointers
+			including all the pointers for halfedge AE, EC, CA, AB, BE, EA.
+			Finally we made faces CED and EBD, edge ED, half-edge ED and DE, and set various pointers including
+			all thep pointers for half-edges CE, ED, DC, EB, BD, and DE.
+
+			In terms of interesting implementation tricks,
+			writing out the edges, faces, etc. and making sure to set the correct pointers for 
+			each of them was helpful.
+			This made it so that we had to think through a lot of small cases of which pointers 
+			change and which do not.
+		</p>
+
+		<p>
+			In the photos below, we are showing how 2 split edge operations upon the teapot act.
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td style="text-align: center;">
+					  <img src="Part 5-1.png" width="400px"/>
+					  <figcaption>Original Teapot</figcaption>
+					</td>
+					<td style="text-align: center;">
+					  <img src="Part 5-2.png" width="400px"/>
+					  <figcaption>Teapot After 1 Split</figcaption>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="text-align: center;">
+					  <img src="Part 5-3.png" width="400px"/>
+					  <figcaption>Teapot After 2 Splits</figcaption>
+					</td>
+				  </tr>
+			</table>
+		</div>
+
+		<p>
+			In the photos below, we are showing how a combination of splits and flips act.
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td style="text-align: center;">
+					  <img src="Part 5-6.png" width="400px"/>
+					  <figcaption>Original Teapot</figcaption>
+					</td>
+					<td style="text-align: center;">
+					  <img src="Part 5-7.png" width="400px"/>
+					  <figcaption>Teapot After 1 Split</figcaption>
+					</td>
+				  </tr>
+				  <tr>
+					<td style="text-align: center;">
+						<img src="Part 5-8.png" width="400px"/>
+						<figcaption>Teapot After 2 Splits</figcaption>
+					  </td>
+					  <td style="text-align: center;">
+						<img src="Part 5-9.png" width="400px"/>
+						<figcaption>Teapot After 2 Split and a Flip</figcaption>
+					  </td>
+				  </tr>
+				  <tr>
+					<td style="text-align: center;">
+						<img src="Part 5-10.png" width="400px"/>
+						<figcaption>Teapot After 2 Splits and 2 Flips</figcaption>
+					  </td>
+				  </tr>
+			</table>
+		</div>
 
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>(Optional) Section III: Potential Extra Credit - Art Competition: Model something Creative</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
-		</div>
+		
+		<p>
+			--
+		</p>
+		
 	</body>
 </html>
