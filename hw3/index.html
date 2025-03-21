@@ -42,7 +42,7 @@
 		
 		<figure>
 			<img src="cornell.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
-			<figcaption>You can add images with captions!</figcaption>
+			<figcaption>Cute Rabbits</figcaption>
 		</figure>
 
 		<!--
@@ -88,24 +88,255 @@
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 		<h2>Part 4: Global Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<p>Our indirect lighting function is inspired by how our direct lighting function calculates radiance. One of our implementations of the direct lighting function uses the irradiances of known light sources in the scene, the bidirectional scattering distribution function associated with the intersected primitive/material, and a selected number for the amount of samples to collect from a light source to calculate the Monte Carlo estimate of the reflection equation at a specific intersection point in world space for a particular outgoing ray. Given an intersection point and outgoing ray, our indirect lighting function first directly calls that direct lighting function to obtain the estimated radiance generated from direct lighting for that intersection point. From there, the function then produces a ray originating at the given intersection point with a random possible direction and traces that ray through world space. If the ray intersects another object, that other intersection point and ray (inverted to now be outgoing from that point) will be the arguments to a recursive call to the indirect lighting function. The result of that recursive call is the estimated radiance stemming from that other intersection point, and it is used to calculate the incoming irradiance from that randomly determined direction. The irradiance is then used to generate an estimated radiance through the Monte Carlo estimate of the reflection equation at the current function call's intersection point for the current function call's outgoing ray, adding it to the total outgoing radiance sum and returning it. To summarize, the indirect lighting function generates the radiance estimate contributed by direct lighting and by a randomly determined incoming direction, with the latter being assisted with a recursive call. Obviously, we do not intend for the recursion to go on infinitely, so we set a max ray depth to put a limit. The tail of the recursion will simply return the estimated radiance of direct lighting to its intersection point and outgoing ray only. To avoid bias, we implement a Russian roulette feature that stops the recursion early for a given termination probability and returns the estimated radiance from direct lighting only. For nonterminating recursions, the radiance estimated by the further recursion call is normalized by the continuation probability. Another thing to note is that sometimes, the randomly determined incoming direction has no intersection in its path, which also stops the recursion early.</p>
+
+		<h4 style="text-align: center;">Global Illumination Rendering</h4>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="all_spheres.png" width="400px"/>
+				  <figcaption>Spheres</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="all_dragon.png" width="400px"/>
+				  <figcaption>Dragon<br>(Max Ray Depth = 2)</figcaption>
+				</td>
+			  </tr>
+			</table>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				  <td style="text-align: center;">
+					<img src="all_blob.png" width="400px"/>
+					<figcaption>Blob</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="all_bench.png" width="400px"/>
+					<figcaption>Bench</figcaption>
+				  </td>
+				</tr>
+			  </table>
+		</div>
+		<h4 style="text-align: center;">Direct and Indirect Illumination</h4>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="spheres_direct_1024.png" width="400px"/>
+				  <figcaption>Only Direct Illumination</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="spheres_indirect.png" width="400px"/>
+				  <figcaption>Only Indirect Illumination</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<p>For the scene with only direct illumination, the objects and walls are very flat in their colors, only possessing and reflecting shades of one color. In addition to that, the shadows are intense, with some parts being literally black instead of a shade, like the roof or the middle part of the sphere's shadows. For the scene with only indirect illumination, the objects and walls possess a mixture of colors resulting from the colors of other objects in the environment. For example, both spheres and the floor have a tinge of blue and red due to the light reflected from the blue and red walls. Although being directly underneath a light source, the top of the spheres is the darkest due to the camera only collecting indirect light reflections, not direct light reflections.</p>
+
+		<h4 style="text-align: center;">Mth Bounce of Light Rendering of CBbunny (Unaccumulated Bounces)</h4>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="unac_m0.png" width="400px"/>
+				  <figcaption>m=0, o=0</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="unac_m1.png" width="400px"/>
+				  <figcaption>m=1, o=0</figcaption>
+				</td>
+			  </tr>
+			</table>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				  <td style="text-align: center;">
+					<img src="unac_m2.png" width="400px"/>
+					<figcaption>m=2, o=0</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="unac_m3.png" width="400px"/>
+					<figcaption>m=3, o=0</figcaption>
+				  </td>
+				</tr>
+			</table>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				  <td style="text-align: center;">
+					<img src="unac_m4.png" width="400px"/>
+					<figcaption>m=4, o=0</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="unac_m5.png" width="400px"/>
+					<figcaption>m=5, o=0</figcaption>
+				  </td>
+				</tr>
+			</table>
+		</div>
+
+		<p>Within the images above, you can see the illumination of the bunny and the scene becoming darker and darker. This is because we are increasing the number of rays used in calculating indirect illumination, going further back along a light ray's path that consists of numerous reflections, and collecting and returning only the estimated radiance from the tail end. Because we are only collecting the tail-end radiance, it's clear to see that the radiance is less and less with depth because the energy is absorbed more and more with each intersection/reflection. Despite the dimness, the collection of indirect radiance allows us to collect additional light information about the environment, specifically how other objects' presences affect the light that gets reflected and cast on each other before being reflected into the camera. Because of this, we can see the red and blue light from the walls that is reflected onto the bunny. While rasterization may be able to calculate how light looks directly cast onto objects, it is ultimately unable to effectively display the additional nuance of indirect lighting, making its quality less realistic than the effects of ray tracing.</p>
+
+		<h4 style="text-align: center;">Accumulated Bounces Rendering of CBbunny</h4>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="acc_m0.png" width="400px"/>
+				  <figcaption>m=0, o=1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="acc_m1.png" width="400px"/>
+				  <figcaption>m=1, o=1</figcaption>
+				</td>
+			  </tr>
+			</table>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				  <td style="text-align: center;">
+					<img src="acc_m2.png" width="400px"/>
+					<figcaption>m=2, o=1</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="acc_m3.png" width="400px"/>
+					<figcaption>m=3, o=1</figcaption>
+				  </td>
+				</tr>
+			</table>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				  <td style="text-align: center;">
+					<img src="acc_m4.png" width="400px"/>
+					<figcaption>m=4, o=1</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="acc_m5.png" width="400px"/>
+					<figcaption>m=5, o=1</figcaption>
+				  </td>
+				</tr>
+			</table>
+		</div>
+
+		<p>When comparing the rendered views of accumulated and unaccumulated bounce, you can see that past depth 1, the views of the accumulated are brighter and possess more light sources, displaying the light from the ceiling. As the depth increases, the brightness increases for the views of the accumulated while the brightness decreases for the views of the unaccumulated. As mentioned before, the views rendered from the unaccumulated bounce return the estimated radiance generated only from the tail-end ray or the very furthest ray, which means that as depth increases, more bounces occur, resulting in more energy being absorbed before getting reflected into the camera. This is different from the views rendered from the accumulated because, in addition to the estimated radiance generated from the tail-end ray, at each intersection, the estimated radiance as a result of direct illumination at that insection point is being considered too, leading to more radiance being accumulated at each bounce.</p>
+
+		<h4 style="text-align: center;">Russian Roulette Rendering of CBbunny</h4>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="rr_m0.png" width="400px"/>
+				  <figcaption>m=0, Termination Probability=0.3</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="rr_m1.png" width="400px"/>
+				  <figcaption>m=1, Termination Probability=0.3</figcaption>
+				</td>
+			  </tr>
+			</table>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				  <td style="text-align: center;">
+					<img src="rr_m2.png" width="400px"/>
+					<figcaption>m=2, Termination Probability=0.3</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="rr_m3.png" width="400px"/>
+					<figcaption>m=3, Termination Probability=0.3</figcaption>
+				  </td>
+				</tr>
+			</table>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				  <td style="text-align: center;">
+					<img src="rr_m4.png" width="400px"/>
+					<figcaption>m=4, Termination Probability=0.3</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="rr_m100.png" width="400px"/>
+					<figcaption>m=100, Termination Probability=0.3</figcaption>
+				  </td>
+				</tr>
+			</table>
+		</div>
+
+		<p>Thankfully, due to the existence of a termination probability, the render times of these specifications are dramatically reduced as depths are occasionally not fully realized on some samples due to terminating early. Despite having some radiances being collected samples that terminated early, the quality of images in depicting lighting remains pristine because the contributions from lights from further depths would have had a minuscule effect anyway due to having their energies absorbed at each intersection/bounce.</p>
+
+		<h4 style="text-align: center;">Various Sample-per-Pixel Rates Rendering of CBspheres</h4>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td style="text-align: center;">
+					  <img src="smp1.png" width="400px"/>
+					  <figcaption>s=1, l=4</figcaption>
+					</td>
+					<td style="text-align: center;">
+					  <img src="smp2.png" width="400px"/>
+					  <figcaption>s=2, l=4</figcaption>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;">
+					  <img src="smp4.png" width="400px"/>
+					  <figcaption>s=4, l=4</figcaption>
+					</td>
+					<td style="text-align: center;">
+					  <img src="smp8.png" width="400px"/>
+					  <figcaption>s=8, l=4</figcaption>
+					</td>
+				</tr>
+				<tr>
+				  <td style="text-align: center;">
+					<img src="smp16.png" width="400px"/>
+					<figcaption>s=16, l=4</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="smp64.png" width="400px"/>
+					<figcaption>s=64, l=4</figcaption>
+				  </td>
+				</tr>
+			</table>
+			<table>
+				<tr>
+					<td style="text-align: center;">
+					  <img src="smp1024.png" width="400px"/>
+					  <figcaption>s=1024, l=4</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<p>As the samples-per-pixel rate increases, the noise and graininess reduce, producing a clearer rendered picture. This can be seen when comparing the image rendered from 1 sample-per-pixel rate with the image rendered from 1024 sample-per-pixel rate. The latter is a crystal clear picture, while the former possesses a lot of artifacts throughout the picture. The tradeoff for this clarity and increase in image quality is that the time it takes to render increases as more calculations need to be had with more samples.</p>
 
 		<h2>Part 5: Adaptive Sampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>(Optional) Part 6: Extra Credit Opportunities</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+		<p>The issue of noise is apparent when we form realistic images by estimating the radiance coming at each pixel by path-tracing rays in order to get the Monte Carlo estimate of the reflection equation. The remedy to this is by increasing the sample-per-pixel rate, but this creates new problems like increasing the time it takes to render images. A way to optimize for this issue is through adaptive sampling. Instead of increasing the sample-per-pixel rate across the board and applying it to all pixels, we would adapt the sampling rate to the pixel's convergence status. When it is to a sufficient degree, there is no longer a need to continue sampling. This adaptation maintains a certain level of image quality while also optimizing for rendering time. </p>
+		
+		<p>Our implementation modifies our ray tracing function at the pixel level. Instead of conducting ray tracing samples for a fixed number of samples, our implementation performs a check every time a batch number of samples is reached. This check involves calculating the mean and variance of the illuminance from all samples taken across all batches and using that to calculate the current number of samples' confidence interval. We then use that confidence interval to check if it lies below a given tolerance threshold around the mean. If it does, that means that the illumination from the collected samples has reached a tolerable level of convergence, so we no longer need to collect further samples. We would stop collecting samples at the current pixel if the check rings true, and we would update the normalizer for the Monte Carlo estimator to accommodate for the shortened number of samples.</p>
+
+		<h4 style="text-align: center;">Renders with Adaptive Sampling Activated</h4>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td style="text-align: center;">
+					  <img src="dragon2048.png" width="400px"/>
+					  <figcaption>Dragon, s=2048</figcaption>
+					</td>
+					<td style="text-align: center;">
+					  <img src="dragon2048_rate.png" width="400px"/>
+					  <figcaption>Dragon, Sample-Per-Pixel Rate Heat Map</figcaption>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;">
+					  <img src="bunny2048.png" width="400px"/>
+					  <figcaption>Bunny, s=2048</figcaption>
+					</td>
+					<td style="text-align: center;">
+					  <img src="bunny2048_rate.png" width="400px"/>
+					  <figcaption>Bunny, Sample-Per-Pixel Rate Heat Map</figcaption>
+					</td>
+				</tr>
+			
+			</table>
 		</div>
 	</body>
 </html>
