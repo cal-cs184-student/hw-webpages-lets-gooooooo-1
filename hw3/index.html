@@ -33,7 +33,7 @@
 		<br>
 
 		<h4 style="margin: 0">Link to webpage: </h4>
-		<a href="https://cal-cs184-student.github.io/hw-webpages-lets-gooooooo-1/hw3/index.html">https://cal-cs184-student.github.io/hw-webpages-lets-gooooooo-1/hw2/index.html</a>
+		<a href="https://cal-cs184-student.github.io/hw-webpages-lets-gooooooo-1/hw3/index.html">https://cal-cs184-student.github.io/hw-webpages-lets-gooooooo-1/hw3/index.html</a>
 		
 		<br>
 
@@ -162,7 +162,79 @@
 		</div>
 
 		<h2>Part 3: Direct Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		To implement direct illumination, first we edit the f function in DiffuseBSDF to return the reflectance over pi as given in Discussion 7.
+		Then, we add zero bounce reflection to get light from the light sources themselves such as the ceiling area light in the rabbit image.
+		Next, we do direct lighting with uniform hemisphere sampling where we trace back rays from the intersection with light taken
+		from random samples of a uniform hemisphere.
+		Then, we do a similar implementation but instead of sampling from a uniform hemisphere we use importance sampling to emphasize 
+		light according to how "important" it is given as by the sampling function.
+
+		<p>Below are some images of both implementations of direct lighting.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="bunny_h.png" width="400px"/>
+				  <figcaption>Bunny with Uniform Hemisphere Sampling</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="bunny_imp.png" width="400px"/>
+				  <figcaption>Bunny with Importance Sampling</figcaption>
+				</td>
+			  </tr>
+			</table>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				  <td style="text-align: center;">
+					<img src="rr_m2.png" width="400px"/>
+					<figcaption>Uniform Hemisphere Sampling</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="rr_m3.png" width="400px"/>
+					<figcaption>Importance Sampling</figcaption>
+				  </td>
+				</tr>
+			</table>
+		</div>
+
+		<p>Below is the bunny image rendered with importance sampling (1 sample per pixel), with given number of rays.
+			As shown clearly below, the noise levels of the shadows gets lower and lower as the number of rays increases which makes sense
+			because we are getting a more accurate average in our calculation when we have more light rays with the same number of samples.
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="bunny_one.png" width="400px"/>
+				  <figcaption>1 Light Ray</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="bunny_four.png" width="400px"/>
+				  <figcaption>4 Light Rays</figcaption>
+				</td>
+			  </tr>
+			</table>
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				  <td style="text-align: center;">
+					<img src="bunny_sixteen.png" width="400px"/>
+					<figcaption>16 Light Rays</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="bunny_sixtyfour.png" width="400px"/>
+					<figcaption>64 Light Rays</figcaption>
+				  </td>
+				</tr>
+			</table>
+		</div>
+
+		<p>Comparing direct lighting with uniform hemisphere sampling to importance sampling, it becomes clear
+			that importance sampling helps smooth out the graininess of the images that we outputted
+			with hemisphere sampling. The result of the bunny for example has almost no visible spots for the importance sampling
+			version but many for the hemisphere sampling version.
+		</p>
 
 		<h2>Part 4: Global Illumination</h2>
 
