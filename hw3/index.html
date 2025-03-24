@@ -98,7 +98,63 @@
 		</div>
 		
 		<h2>Part 2: Bounding Volume Hierarchy</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		For this part of the project, we impelmented a bounding volume hierarchy. To do this, we created a tree
+		that would takes in an iterator of primtiives and divide them roughly in 2 each time until we end recursion when we only
+		have less than or equal to max_leaf_size primitives left in the iterator.
+		The heuristic that we used to split the primitives roughly in half was as such:
+		we measured the absolute difference in number of primitives that would be in 2 split nodes based on the primitive's centroid's x, y, and z values 
+		of the primitives compared to the overall average x, y, z of the centroids.
+		(one category if centroid is less than or equal to average, other if greater than).
+		We would choose the axis to divide by x,y, or z based on which one would have the lowest absolute difference as calculated earlier.
+		Then we would put primitives with centroid value on that axis less it on the left and primitives equal to or more than on the right.
+		To deal with intersections, we first considered whether the ray would hit the bounding box at a time that made sense (needs to be within the bounding box
+		in all 3 axes at a non-negative time). We can recursively iterate through the BVH tree only considering nodes
+		whose bounding box the ray intersects with until we arrive at leaf nodes and only have to consider the primitives inside the leaf nodes that we arrived at.
+
+		<p>With BVH, it takes 0.5557 seconds to render CBLucy.
+		With BVH it takes 0.0979 seconds to render the dragon. </p>
+
+		<p>Below are the outputs for complicated files</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="3.2-CBlucy.png" width="400px"/>
+				  <figcaption>Lucy</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="3.2-CBdragon.png" width="400px"/>
+				  <figcaption>Cube</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p> Without BVH, it takes 129.2017 seconds to render Max Planck. With BVH
+			it takes 0.3746 seconds. Without BVH it takes 911.7099 seconds to render blob.
+			With BVH it takes 0.6967 seconds to render the blob.
+			Looking at these results, it is clear that BVH significantly speeds up acceleration.
+			Our answer to why this happens is because thanks to the BVH tree, we do not have to consider
+			intersections between rays and tree nodes that contain primitives whose bounding boxes the ray does not even hit.
+			Thus, we can only consider a subsection of the primitives and save a significant amount of time in models
+			with thousands of different primitives.
+		</p>
+
+		<p>Below are the outputs from the code with BVH for the files discussed in the preceding paragraph.</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="3.2-max.png" width="400px"/>
+				  <figcaption>Max Planck</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="3.2-blob.png" width="400px"/>
+				  <figcaption>Blob</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>Part 3: Direct Illumination</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
