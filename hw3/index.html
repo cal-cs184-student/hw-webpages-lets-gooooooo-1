@@ -53,29 +53,45 @@
 		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p> For this part, we first determined the intersection of a ray that starts at the origin with the virtual camera sensor by transforming from image space to camera space (interpolating the x and y values).
+		Then, we take ns_aa random samples from a given pixel and update the sample buffer with the average result of
+		calling est_radiance_global_illumination on each of the samples. </p>
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		<p> To deal with ray-triangle intersections, we used the Moller-Trumbore algorithm after taking
+			using the origin and direction of the ray and points of the triangle to determine various intermediate vectors that the algorithm takes as input. After
+			using the algorithm, we get values for time and 2 barycentric coordinaters. If the time value is non-negative,
+			and the barycentric coordinates (including the 3rd which is 1 minus the other two) are all between 0 and 1 inclusive, then we have a valid intersection and we populate
+			the intersection struct with the time we calculated, the normal (using barycentric interpolation), the primitive, and the bsdf.
+		</p>
+
+		<p> To deal with ray-circle intersections, we use the equation for a circle given a center and radius and the equation for a ray to calculate
+			the intersection time/s using the quadratic formula. If there are non-imaginary solutions where t is non-negative, then we have a valid intersection
+			and can populate the intersection struct similarly to with the triangle.
+		</p>
+
+		<p>
+			The idea behind the Moller-Trumbore algorithm is that we can represent our intersection variables (t, b_1, b_2) as a vector
+			in a linear matrix equation (Matrix * vector = vector), then we can calculate the intersection vector using Cramer's rule given
+			the matrix and the resultant vector (which are represented by matrix - the reverse of the ray direction and the vectors that represent displacement between  p1-p0 (vector 1) and p2-p0 (vector 2)), and vector - the intersection point)
+		</p>
+
+		<p>Below are examples of shading for a few small .dae files (namely the cow, cube, and spheres files).</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="3.1-cow.png" width="400px"/>
+				  <figcaption>Cow</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="3.1-cube.png" width="400px"/>
+				  <figcaption>Cube</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="cornell.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="3.1-spheres.png" width="400px"/>
+				  <figcaption>Spheres</figcaption>
 				</td>
 			  </tr>
 			</table>
