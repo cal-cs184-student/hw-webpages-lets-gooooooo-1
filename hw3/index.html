@@ -50,7 +50,12 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this homework, we implemented ray tracing. First, we dealt with generating rays from our camera's origin and averaging samples to get our pixel values for color.
+		Then, we dealt with intersections between rays and primitives such as triangles and circles using formulas given in discussion.
+		Afterward, we implemented a bounding volume hierarchy tree where we sped up the ray tracing process by avoiding intersection calculations with primitives
+		when those primitives were further along in the tree than an inner node whose bounding box the ray did not intersect with.
+		Next, we implemented direct illumination and global illumination to deal with how bright different parts of our output image should be.
+		Finally, we added adaptive sampling so that we could end sampling early when the pixel converged so that we can save our program from doing unnecessary sampling.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
 		<p> For this part, we first determined the intersection of a ray that starts at the origin with the virtual camera sensor by transforming from image space to camera space (interpolating the x and y values).
