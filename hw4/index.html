@@ -28,19 +28,21 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 4 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;"><strong>Names:</strong> Eric Nguyen, Shaurya Jain</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-
+		<h4 style="margin: 0">Link to webpage: </h4>
+		<a href="https://cal-cs184-student.github.io/hw-webpages-lets-gooooooo-1/hw4/index.html">https://cal-cs184-student.github.io/hw-webpages-lets-gooooooo-1/hw4/index.html</a>
+		
 		<br>
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-
+		<h4 style="margin-bottom: 0">Link to GitHub repository:</h4>
+		<a href="https://github.com/cal-cs184-student/hw-webpages-lets-gooooooo-1">https://github.com/cal-cs184-student/hw-webpages-lets-gooooooo-1</a>
+			
 		<figure>
 			<img src="clothsim.png" alt="Cloth draped over sphere" style="width:70%"/>
-			<figcaption>You can add images with captions!</figcaption>
+			<figcaption>Cool Cloth Draped Over Sphere</figcaption>
 		</figure>
 
 		<!--
@@ -51,33 +53,29 @@
 		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 
 		<h2>Part 1: Masses and springs</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		<figure>
+			<img src="first_image.png" alt="Cloth Mesh" style="width:70%"/>
+			<figcaption>Point Masses and Springs for Cloth Mesh</figcaption>
+		</figure>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="pinned2_no_shearing.png" width="400px"/>
+				  <figcaption>Cloth Mesh With No Shearing Constraints</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="pinned2_only_shearing.png" width="400px"/>
+				  <figcaption>Cloth Mesh With Only Shearing Constraints</figcaption>
 				</td>
 			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
+			  
 			</table>
 		</div>
+		<figure>
+			<img src="pinned2_all_type.png" alt="Cloth Mesh" style="width:70%"/>
+			<figcaption>Cloth Mesh With Structual, Shearing, and Bending Constraints</figcaption>
+		</figure>
 
 		<h2>Part 2: Simulation via numerical integration</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
