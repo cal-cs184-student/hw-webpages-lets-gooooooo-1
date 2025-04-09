@@ -69,7 +69,6 @@
 				  <figcaption>Cloth Mesh With Only Shearing Constraints</figcaption>
 				</td>
 			  </tr>
-			  
 			</table>
 		</div>
 		<figure>
@@ -78,7 +77,93 @@
 		</figure>
 
 		<h2>Part 2: Simulation via numerical integration</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="motion_Ks=1.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth in Motion, Ks = 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="rest_Ks=1.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth at Rest, Ks = 1</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="motion_Ks=200000.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth in Motion, Ks = 200000</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="rest_Ks=200000.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth at Rest, Ks = 200000</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p>The spring constant ks affects the cloth's reaction to attempts at deformation by external forces. When the cloth drops with a low spring constant ks, it behaves with more flow in that it folds within itself more, and ripples appear and propagate more easily throughout the cloth. At rest, more of the cloth is dragged down by the force of gravity, with the final shape of the cloth being more deformed as the cloth appears more stretched down from the pinned points. When the cloth drops with a high spring constant ks, there is more stiffness in the way the cloth moves. It appears to roll into its final resting position with barely any ripples appearing and propagating within the cloth. The increased resistance to stretching leads to the springs barely deviating from the original rest length, causing the drop to flow down like a chain of fixed-length pendulums rather than springs. At rest, the cloth maintains more of its original shape with noticeably less drooping downwards.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="motion_d=1.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth in Motion, Density = 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="rest_d=1.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth at Rest, Density = 1</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="motion_d=1000.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth in Motion, Density = 1000</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="rest_d=1000.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth at Rest, Density = 1000</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p>Density affects the mass at each point mass of the cloth. With less density, less mass is at each point mass, leading to a smaller magnitude of force applied on each point mass under the same external acceleration. This leads to a low extent of deviation from the rest length for each spring, making the internal forces caused by them have a smaller magnitude as well. This is why when the cloth is animated with a small density, the cloth appears rigid with minimal propagation of ripples as the internal forces that cause them are of a smaller magnitude. There is less drooping than usual when the cloth is at rest because the external force is smaller, leading to less deviation from the rest length for each spring. The inverse is true, too. When the density is great, the magnitude of the external forces and the internal forces are greater for the same reason. The cloth in motion would have noticeably more ripples and propagations due to the greater magnitude of internal forces, and the cloth droops more at rest due to the greater magnitude of external forces.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="dp=0.05_2.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth, Damping = 0.05 (1)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="dp=0.05_1.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth, Damping = 0.05 (2)</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="dp=0.95_1.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth, Damping = 0.95 (0)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="dp=0.95_2.png" width="400px"/>
+				  <figcaption>"Pinned2" Cloth, Damping = 0.95 (1)</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p>Within our simulation, the damping factor affects the velocity at which each point masses of the cloth is estimated to be in at a moment in time. The estimated velocity's magnitude has an inversely proportional relationship with the damping factor. When the damping factor is decreased, the magnitude of the estimated velocity is increased, and this leads to the positions of each point mass being updated to a greater extent than usual. The effects of this emerge as more ripples that propagate, appear, and disappear at a faster rate on the cloth. It also makes the cloth take longer to return to rest as the rate at which the velocity of each point mass decreases is lower. At rest, the cloth looks the same as usual. When the damping factor is increased, the cloth appears to drift into its resting shape at a slow speed and with very minimal internal ripples and bends, which makes sense because the estimated velocity is with a far lower magnitude, so the updated positions are a result of the diminishing effects of the external and internal forces.</p>
+		
+		<figure>
+			<img src="pinned4_fin.png" alt="Cloth Mesh" style="width:70%"/>
+			<figcaption>"Pinned4" Cloth, Final Resting State</figcaption>
+		</figure>
+
 
 		<h2>Part 3: Handling collisions with other objects</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
