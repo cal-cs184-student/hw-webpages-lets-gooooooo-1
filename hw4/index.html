@@ -219,7 +219,64 @@
 		</figure>
 
 		<h2>Part 4: Handling self-collisions</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		
+		<p> To implement self-collisions, we started by creating a hash function which would take in position vectors,
+			truncate each component to be a multiple of the size of the box components and then return a number corresponding to the truncated position (which is
+			unique to each box). Then, we created a spatial map where we took all the point masses and put them in a map with the hash output as the key so that
+			point masses inside the same box would have the same key. We would create a vector for each key where we add these corresponding point masses whose position hashes to the key.
+			Finally, we check only each point mass with other point masses in the same box to make sure that they are seperated by at least 2 * thickness and if not, to add a correction vector to
+			seperate them. For each point mass, we average all the correction vectors that we get between it and other point masses in the same box and divide the result by simulation_steps then
+			add that quotient to the position to update it.
+		</p>
+
+		<p> The following images show the cloth in the process of falling.
+			As it falls, the cloth folds on itself and eventually it spreads out a bit.
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.4 Picture 1.png" width="400px"/>
+				  <figcaption>Cloth falling (early)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="4.4 Picture 2.png" width="400px"/>
+				  <figcaption>Cloth falling (middle)</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.4 Picture 3.png" width="400px"/>
+				  <figcaption>Cloth falling (late)</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p> The following images (top left and bottom left) show how the higher the ks value, the smoother the cloth will be when folding on itself.
+			The images (top right and bottom left) show the lower the density value, the smoother the cloth will be when folding on itself.
+		</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.4 Picture 4.png" width="400px"/>
+				  <figcaption>Cloth, density: 15 g/cm^2, ks: 200000 N/m</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="4.4 Picture 6.png" width="400px"/>
+				  <figcaption>Cloth, density: 1 g/cm^2, ks: 5000 N/m</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.4 Picture 5.png" width="400px"/>
+				  <figcaption>Cloth, density: 15 g/cm^2, ks: 5000 N/m</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>Part 5: Shaders</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
