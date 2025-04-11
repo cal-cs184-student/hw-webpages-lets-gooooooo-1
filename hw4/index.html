@@ -284,11 +284,20 @@
 			trying to trace the path of a ray, we use a model called the Blinn-Phong model to add lighting components (ambient, diffuse, and specular).
 			Vertex shaders deals with a vertex's attributes like the vertex's normal.
 			Fragment shaders are further down the graphics pipeline from vertex shaders.
-			Fragment shaders use the attributes set by the vertex shaders to figure out the lighting and material effects for specific pixels.
+			Fragment shaders use the attributes set by the vertex shaders to figure out the lighting and material effects for fragments (groups of pixels).
+		</p>
+
+		<p>
+			In the Blinn-Phong shading model, we divide the lighting effects into 3 sepearte components that we add together at the end:
+			ambient, specular, and diffuse. Ambient lighting is the lighting caused by the scene itself 
+			so it is a constant value that is the product of an ambient intensity 
+			of the scene and a k_ambient constant that we set. Diffuse lighting depends only on the intensity of the light source and the
+			angle of incidence of the light ray. Specular lighting depends on the intensity of the light source, and the angle between the normal and the bisector
+			of the vector from the surface to the camera and the vector from the surface to the light source.
 		</p>
 
 		<p> In the follow pictures, the sphere and plane are shown when using bump/displacement shaders.
-			Under the deformation shader, the sphere for example becomes less smooth and pockets of mishapen surface are more noticeable up close than for bump maping
+			Under the deformation shader, the sphere for example becomes less smooth and pockets of mishapen surface are more noticeable up close than for bump mapping
 			where the sphere is still much smoother.
 		</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
