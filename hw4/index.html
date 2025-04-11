@@ -282,6 +282,62 @@
 		
 		<p> Shaders are another model for lighting, different from our previous method of ray tracing where instead of 
 			trying to trace the path of a ray, we use a model called the Blinn-Phong model to add lighting components (ambient, diffuse, and specular).
+			Vertex shaders deals with a vertex's attributes like the vertex's normal.
+			Fragment shaders are further down the graphics pipeline from vertex shaders.
+			Fragment shaders use the attributes set by the vertex shaders to figure out the lighting and material effects for specific pixels.
+		</p>
+
+		<p> In the follow pictures, the sphere and plane are shown when using bump/displacement shaders.
+			Under the deformation shader, the sphere for example becomes less smooth and pockets of mishapen surface are more noticeable up close than for bump maping
+			where the sphere is still much smoother.
+		</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.5 Picture 3.png" width="400px"/>
+				  <figcaption>Sphere and Plane Separated - Bump</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="4.5 Picture 4.png" width="400px"/>
+				  <figcaption>Sphere and Plane Together - Bump</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.5 Picture 5.png" width="400px"/>
+				  <figcaption>Sphere and Plane Separated - Displacement</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="4.5 Picture 6.png" width="400px"/>
+				  <figcaption>Sphere and Plane Together - Displacement</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.5 Picture 7.png" width="400px"/>
+				  <figcaption>Sphere Closeup - Displacement</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="4.5 Picture 8.png" width="400px"/>
+					<figcaption>Sphere Closeup - Bump</figcaption>
+				  </td>
+			  </tr>
+			</table>
+		</div>
+
+		<p> 
+			The images below show the difference between bump and displacement on different coarseness.
 		</p>
 
 		<p> The images below show the sphere and plane with mirror shading.</p>
@@ -301,7 +357,7 @@
 			</table>
 		</div>
 
-		<h2>(Optional) Part 6: Extra Credit - Additional cloth simulation features!</h2>
+		<!-- <h2>(Optional) Part 6: Extra Credit - Additional cloth simulation features!</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		
 		<h2>Additional Notes (please remove)</h2>
@@ -313,7 +369,7 @@
 					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
 				</ul>
 			</li>
-		</ul>
+		</ul> -->
 		</div>
 	</body>
 </html>
