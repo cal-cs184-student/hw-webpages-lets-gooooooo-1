@@ -288,7 +288,7 @@
 		</p>
 
 		<p>
-			In the Blinn-Phong shading model, we divide the lighting effects into 3 sepearte components that we add together at the end:
+			In the Blinn-Phong shading model, we divide the lighting effects into 3 seperate components that we add together at the end:
 			ambient, specular, and diffuse. Ambient lighting is the lighting caused by the scene itself 
 			so it is a constant value that is the product of an ambient intensity 
 			of the scene and a k_ambient constant that we set. Diffuse lighting depends only on the intensity of the light source and the
@@ -296,9 +296,61 @@
 			of the vector from the surface to the camera and the vector from the surface to the light source.
 		</p>
 
+		<p>
+			The following pictures show components of our Blinn-Phong model by themselves, then together.
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.7.1.png" width="400px"/>
+				  <figcaption>Ambient Only: k_a = 0.5, I_a = (1.0, 1.0, 1.0)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="4.7.2.png" width="400px"/>
+				  <figcaption>Diffuse Only: k_d = 0.8</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.7.3.png" width="400px"/>
+				  <figcaption>Specular Only: k_s = 0.5, p = 40</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="4.7.4.png" width="400px"/>
+				  <figcaption>Ambient Only: k_a = 0.3, I_a = (1.0, 1.0, 1.0), k_d = 0.8, k_s = 0.5, p = 40</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<p> In the following pictures, our texture is shown as uploaded on the directory and the cloth and sphere togethere are shown in the simulation with texture shading. 
+			Citation for texture: https://www.denofgeek.com/wp-content/uploads/2024/06/Shadow-of-the-Erdtree.jpg 
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.6.2 Picture 5.png" width="400px"/>
+				  <figcaption>Texture</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="4.6.2 Picture 6.png" width="400px"/>
+				  <figcaption>Sphere and Plane - Texture Mapping/figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
 		<p> In the follow pictures, the sphere and plane are shown when using bump/displacement shaders.
 			Under the deformation shader, the sphere for example becomes less smooth and pockets of mishapen surface are more noticeable up close than for bump mapping
 			where the sphere is still much smoother.
+			In bump shading, we change the normal in the vertex's object space from (0, 0, 1) by -dU on the x-coordinate, -dV on the y-coordinates. Then,
+			we change from object space to world space to get world space coordinates of the new normal for the vertex and we update the vertex's normal to that new value.
+			In displacement shading, we start with the same process as bump shading, but then we also change the vertex positions by adding normal * height(u, v) * height_scaling 
+			constant to each of the position values.
 		</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
@@ -347,7 +399,33 @@
 
 		<p> 
 			The images below show the difference between bump and displacement on different coarseness.
+			The pictures of the displacement shading clearly show more ruggedness of the texture than the bump shading.
 		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.6.2 Picture 1.png" width="400px"/>
+				  <figcaption>Sphere and Cloth: vertical resolution 16, horizontal resolution 16 - Bump</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="4.6.2 Picture 2.png" width="400px"/>
+				  <figcaption>Sphere and Cloth: vertical resolution 16, horizontal resolution 16 - Displacement</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="4.6.2 Picture 3.png" width="400px"/>
+				  <figcaption>Sphere and Cloth: vertical resolution 128, horizontal resolution 128 - Bump</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="4.6.2 Picture 4.png" width="400px"/>
+				  <figcaption>Sphere and Cloth: vertical resolution 128, horizontal resolution 128 - Displacement</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<p> The images below show the sphere and plane with mirror shading.</p>
 
